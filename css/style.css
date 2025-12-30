@@ -1,0 +1,139 @@
+/* ---------- VARIABLES ---------- */
+:root {
+  --bg: #84daaf;
+  --text: #0b0229;
+  --accent: #0b0229;
+}
+
+[data-theme="dark"] {
+  --bg: #0b0229;
+  --text: #84daaf;
+  --accent: #84daaf;
+}
+
+/* ---------- GLOBAL ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.5s, color 0.5s;
+}
+
+/* ---------- NAV ---------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--bg);
+  z-index: 10;
+}
+
+.nav-link {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.nav-link.active {
+  border-bottom: 2px solid var(--accent);
+}
+
+#themeToggle {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+}
+
+/* ---------- SECTIONS ---------- */
+.section {
+  min-height: 100vh;
+  padding: 5rem 2rem;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+/* ---------- REVEAL (FIXED) ---------- */
+/* Visible by default */
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Only animate when JS is enabled */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 0.8s ease;
+}
+
+.js .reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- PROJECTS ---------- */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+}
+
+/* ---------- FILTERS ---------- */
+.filters {
+  margin-bottom: 1rem;
+}
+
+.filter.active {
+  font-weight: bold;
+}
+
+/* ---------- MODAL ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: var(--bg);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.close {
+  cursor: pointer;
+}
+
+/* ---------- LOTTIE ---------- */
+.lottie {
+  width: 200px;
+  margin-top: 2rem;
+}
+
