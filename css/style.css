@@ -1,14 +1,8 @@
-/* ---------- VARIABLES ---------- */
+/* ---------- BASE VARIABLES ---------- */
 :root {
-  --bg: #84daaf;
-  --text: #0b0229;
-  --accent: #0b0229;
-}
-
-[data-theme="dark"] {
-  --bg: #0b0229;
-  --text: #84daaf;
-  --accent: #84daaf;
+  --bg: rgb(132, 218, 175);
+  --text: rgb(11, 2, 41);
+  --accent: rgb(11, 2, 41);
 }
 
 /* ---------- GLOBAL ---------- */
@@ -22,10 +16,36 @@ html {
 }
 
 body {
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
-  transition: background 0.5s, color 0.5s;
+  transition:
+    background 0.6s linear,
+    color 0.6s linear;
+}
+
+/* ---------- LOADER ---------- */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: rgb(132, 218, 175);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.loader-circle {
+  width: 42px;
+  height: 42px;
+  border: 4px solid rgb(11, 2, 41);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ---------- NAV ---------- */
@@ -34,49 +54,44 @@ body {
   top: 0;
   display: flex;
   justify-content: space-between;
-  padding: 1rem 2rem;
-  background: var(--bg);
+  padding: 1.5rem 2rem;
   z-index: 10;
 }
 
 .nav-link {
-  margin-right: 1rem;
+  margin-left: 1rem;
   text-decoration: none;
   color: var(--text);
+  transition: color 0.4s ease;
 }
 
 .nav-link.active {
   border-bottom: 2px solid var(--accent);
 }
 
-#themeToggle {
-  cursor: pointer;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
+.logo {
+  font-weight: 600;
 }
 
 /* ---------- SECTIONS ---------- */
 .section {
   min-height: 100vh;
-  padding: 5rem 2rem;
+  padding: 7rem 2rem;
+}
+
+.hero h2 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
 }
 
 .accent {
   color: var(--accent);
+  transition: color 0.6s linear;
 }
 
-/* ---------- REVEAL (FIXED) ---------- */
-/* Visible by default */
-.reveal {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Only animate when JS is enabled */
+/* ---------- REVEAL ---------- */
 .js .reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(40px);
   transition: 0.8s ease;
 }
 
@@ -85,36 +100,42 @@ body {
   transform: translateY(0);
 }
 
+/* ---------- PARALLAX ---------- */
+.parallax {
+  will-change: transform;
+}
+
 /* ---------- PROJECTS ---------- */
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .project-card {
-  padding: 1.5rem;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.15);
+  padding: 1.8rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  transition:
+    transform 0.3s ease,
+    background 0.6s linear;
 }
 
-/* ---------- FILTERS ---------- */
-.filters {
-  margin-bottom: 1rem;
-}
-
-.filter.active {
-  font-weight: bold;
+.project-card:hover {
+  transform: translateY(-8px);
 }
 
 /* ---------- MODAL ---------- */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  z-index: 50;
 }
 
 .hidden {
@@ -123,17 +144,21 @@ body {
 
 .modal-content {
   background: var(--bg);
-  padding: 2rem;
-  border-radius: 12px;
+  color: var(--text);
+  padding: 2.5rem;
+  border-radius: 18px;
+  max-width: 500px;
+  width: 90%;
+  animation: modalIn 0.4s ease;
+  transition: background 0.6s linear, color 0.6s linear;
+}
+
+@keyframes modalIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .close {
+  font-size: 1.6rem;
   cursor: pointer;
 }
-
-/* ---------- LOTTIE ---------- */
-.lottie {
-  width: 200px;
-  margin-top: 2rem;
-}
-

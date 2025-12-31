@@ -1,22 +1,9 @@
-/* ---------- AUTO DARK MODE ---------- */
-const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-const savedTheme = localStorage.getItem("theme");
-
-if (savedTheme) {
-  document.documentElement.setAttribute("data-theme", savedTheme);
-} else if (prefersDark) {
-  document.documentElement.setAttribute("data-theme", "dark");
-}
-
-/* ---------- TOGGLE ---------- */
-document.getElementById("themeToggle").addEventListener("click", () => {
-  const current = document.documentElement.getAttribute("data-theme");
-  const next = current === "dark" ? "light" : "dark";
-  document.documentElement.setAttribute("data-theme", next);
-  localStorage.setItem("theme", next);
+/* ---------- PAGE LOADER ---------- */
+window.addEventListener("load", () => {
+  document.getElementById("loader").style.display = "none";
 });
 
-/* ---------- SCROLL REVEAL ---------- */
+/* ---------- REVEAL ---------- */
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) entry.target.classList.add("show");
@@ -25,6 +12,37 @@ const observer = new IntersectionObserver(entries => {
 
 document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 
+/* ---------- PARALLAX + COLOR TRANSITIONS ---------- */
+window.addEventListener("scroll", () => {
+  const scrolled = window.scrollY;
+  const maxScroll = document.body.scrollHeight - window.innerHeight;
+  const progress = Math.min(scrolled / maxScroll, 1);
+
+  /* Parallax */
+  document.querySelectorAll(".parallax").forEach(el => {
+    el.style.transform = `translateY(${scrolled * 0.25}px)`;
+  });
+
+  /* COLOR INTERPOLATION */
+  const bgStart = [132, 218, 175]; // green
+  const bgEnd = [11, 2, 41];       // blue-black
+
+  const textStart = [11, 2, 41];
+  const textEnd = [210, 240, 230]; // soft light text
+
+  const blend = (start, end) =>
+    start.map((s, i) =>
+      Math.round(s + (end[i] - s) * progress)
+    );
+
+  const bg = blend(bgStart, bgEnd);
+  const text = blend(textStart, textEnd);
+
+  document.documentElement.style.setProperty("--bg", `rgb(${bg.join(",")})`);
+  document.documentElement.style.setProperty("--text", `rgb(${text.join(",")})`);
+  document.documentElement.style.setProperty("--accent", `rgb(${text.join(",")})`);
+});
+
 /* ---------- ACTIVE NAV ---------- */
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-link");
@@ -32,51 +50,31 @@ const navLinks = document.querySelectorAll(".nav-link");
 window.addEventListener("scroll", () => {
   let current = "";
   sections.forEach(section => {
-    const top = window.scrollY;
-    if (top >= section.offsetTop - 200) {
+    if (window.scrollY >= section.offsetTop - 200) {
       current = section.id;
     }
   });
 
   navLinks.forEach(link => {
-    link.classList.remove("active");
-    if (link.getAttribute("href") === `#${current}`) {
-      link.classList.add("active");
-    }
-  });
-});
-
-/* ---------- FILTER PROJECTS ---------- */
-document.querySelectorAll(".filter").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    const filter = btn.dataset.filter;
-    document.querySelectorAll(".project-card").forEach(card => {
-      card.style.display =
-        filter === "all" || card.dataset.category === filter
-          ? "block"
-          : "none";
-    });
+    link.classList.toggle(
+      "active",
+      link.getAttribute("href") === `#${current}`
+    );
   });
 });
 
 /* ---------- MODAL ---------- */
 const modal = document.querySelector(".modal");
-document.querySelectorAll(".open-modal").forEach(btn =>
-  btn.addEventListener("click", () => modal.classList.remove("hidden"))
-);
+const modalTitle = document.getElementById("modalTitle");
 
-document.querySelector(".close").addEventListener("click", () =>
-  modal.classList.add("hidden")
-);
+document.querySelectorAll(".open-modal").forEach(btn => {
+  btn.addEventListener("click", e => {
+    modalTitle.textContent =
+      e.target.closest(".project-card").dataset.title;
+    modal.classList.remove("hidden");
+  });
+});
 
-/* ---------- LOTTIE ---------- */
-lottie.loadAnimation({
-  container: document.getElementById("lottie"),
-  renderer: "svg",
-  loop: true,
-  autoplay: true,
-  path: "assets/lottie.json" // replace with your own
+document.querySelector(".close").addEventListener("click", () => {
+  modal.classList.add("hidden");
 });

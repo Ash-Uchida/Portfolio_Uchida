@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ash Uchida | Portfolio</title>
 
-  <!-- IMPORTANT: tells CSS that JS is enabled -->
   <script>
     document.documentElement.classList.add("js");
   </script>
 
   <link rel="stylesheet" href="css/style.css" />
-
-  <!-- Lottie -->
-  <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
 </head>
 
 <body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-circle"></div>
+</div>
 
 <header class="navbar">
   <h1 class="logo">Ash</h1>
@@ -24,54 +25,41 @@
     <a href="#home" class="nav-link active">Home</a>
     <a href="#projects" class="nav-link">Projects</a>
     <a href="#contact" class="nav-link">Contact</a>
-    <button id="themeToggle">🌙</button>
   </nav>
 </header>
 
-<!-- HERO -->
-<section id="home" class="section hero reveal">
+<section id="home" class="section hero reveal parallax">
   <h2>Hello, I’m <span class="accent">Ash</span></h2>
-  <p>I build interactive, animated websites.</p>
-
-  <!-- Lottie animation -->
-  <div id="lottie" class="lottie"></div>
+  <p>I design and build interactive experiences.</p>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects" class="section reveal">
   <h2>Projects</h2>
 
-  <div class="filters">
-    <button data-filter="all" class="filter active">All</button>
-    <button data-filter="web" class="filter">Web</button>
-    <button data-filter="js" class="filter">JavaScript</button>
-  </div>
-
   <div class="project-grid">
-    <div class="project-card" data-category="web">
-      <h3>Portfolio Site</h3>
+    <div class="project-card" data-title="Portfolio Website">
+      <h3>Portfolio Website</h3>
       <button class="open-modal">View</button>
     </div>
 
-    <div class="project-card" data-category="js">
-      <h3>Interactive App</h3>
+    <div class="project-card" data-title="JavaScript App">
+      <h3>JavaScript App</h3>
       <button class="open-modal">View</button>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact" class="section reveal">
   <h2>Contact</h2>
-  <p>Email or socials here.</p>
+  <p>Email or socials go here.</p>
 </section>
 
 <!-- MODAL -->
 <div class="modal hidden">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h3>Project Details</h3>
-    <p>Edit this content per project.</p>
+    <h3 id="modalTitle"></h3>
+    <p>Project details, links, screenshots, etc.</p>
   </div>
 </div>
 
